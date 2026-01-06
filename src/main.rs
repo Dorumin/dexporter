@@ -7,9 +7,9 @@ mod fs;
 mod update;
 mod import;
 mod export;
+mod download;
 
 use clap::Parser;
-use update::do_update;
 
 use args::DexporterOpts;
 
@@ -35,13 +35,21 @@ async fn main() {
             }
         },
         DexporterOpts::Update(update) => {
-            match do_update(update).await {
+            match update::do_update(update).await {
                 Ok(()) => {
                     eprintln!("Finished ok?");
                 },
                 Err(_) => {
                     eprintln!("Something went wrong.");
                 }
+            }
+        },
+        DexporterOpts::Download(download) => {
+            let result = download::do_download(download).await;
+
+            if let Err(e) = result {
+                eprintln!("A mistake: {e}");
+                eprintln!("Fix it.");
             }
         }
     }

@@ -115,7 +115,7 @@ async fn update_channel(options: &Update, channel: &Channel, file_path: &Path) -
     for i in 1u32.. {
         eprintln!("fetching: {} length: {} from: {}", channel.display(), parsed.messages.len(), start_from);
 
-        let messages = fetch_messages(options, channel.id(), start_from).await?;
+        let messages = fetch_messages(&options.token, channel.id(), start_from).await?;
 
         if messages.is_empty() {
             break;

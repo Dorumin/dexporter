@@ -11,7 +11,8 @@ use crate::types::{
 pub enum DexporterOpts {
     Import(Import),
     Export(Export),
-    Update(Update)
+    Update(Update),
+    Download(Download)
 }
 
 #[derive(Parser, Debug)]
@@ -46,4 +47,14 @@ pub struct Import {
 pub struct Export {
     #[arg(long)]
     pub headers: bool,
+}
+
+
+#[derive(Parser, Debug)]
+pub struct Download {
+    #[arg(long)]
+    pub token: String,
+
+    #[arg(long, value_delimiter = ',')]
+    pub channels: Vec<String>
 }

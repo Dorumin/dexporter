@@ -87,7 +87,7 @@ pub async fn fetch_channel(options: &Update, channel_id: u64) -> Channel {
 }
 
 
-pub async fn fetch_messages(options: &Update, channel_id: u64, start_from: u64) -> anyhow::Result<Vec<Message>> {
+pub async fn fetch_messages(token: &str, channel_id: u64, start_from: u64) -> anyhow::Result<Vec<Message>> {
     let client = reqwest::Client::new();
     let mut url = Url::parse("https://discord.com").unwrap();
 
@@ -99,7 +99,7 @@ pub async fn fetch_messages(options: &Update, channel_id: u64, start_from: u64) 
     let mut retries = 0;
     let results = loop {
         let response = client.get(url.clone())
-            .header("Authorization", &options.token)
+            .header("Authorization", token)
             .send()
             .await;
 
