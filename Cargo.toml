@@ -1,0 +1,20 @@
+[package]
+name = "dexporter"
+version = "0.1.0"
+edition = "2024"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+reqwest = { version = "0.11.6", features = ["json"] }
+serde = { version = "1.0.130", features = ["derive"] }
+tokio = { version = "1.13.0", features = ["full"] }
+futures = "0.3.17"
+clap = { version = "4.4.18", features = ["derive"] }
+anyhow = "1.0.79"
+serde_json = "1.0.145"
+chrono = { version = "0.4.42", features = ["serde"] }
+imbl = "6.1.0"
+walkdir = "2.5.0"
+# Not needed with U64ReprStr
+# serde_with = "1.11.0"
