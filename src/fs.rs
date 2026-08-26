@@ -105,7 +105,7 @@ async fn update_channel(options: &Update, channel: &Channel, file_path: &Path) -
     });
 
     // Messages are ordered oldest to newest - start from last, newest message's id
-    let mut start_from = parsed.messages.last().map_or(0, |m| *m.id);
+    let mut start_from = options.start.unwrap_or_else(|| parsed.messages.last().map_or(0, |m| *m.id));
 
     if channel.last_message_id() == Some(start_from) {
         eprintln!("skipping: {}; manifest states last message id is the same as stored", channel.display());

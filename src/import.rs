@@ -360,6 +360,7 @@ pub async fn do_import(import: Import) -> anyhow::Result<()> {
                     global_name: None,
                 },
                 content: Some(temp_message.text),
+                message_reference: None,
                 edited_timestamp: None,
                 embeds: vec![],
                 pinned: None,

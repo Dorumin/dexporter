@@ -26,6 +26,9 @@ pub struct Update {
     #[arg(long)]
     pub guilds: Vec<String>,
 
+    #[arg(long)]
+    pub start: Option<u64>,
+
     #[arg(skip)]
     pub state: UpdateState
 }
@@ -55,6 +58,12 @@ pub struct Download {
     #[arg(long)]
     pub token: String,
 
+    #[arg(long)]
+    pub start: Option<u64>,
+
     #[arg(long, value_delimiter = ',')]
-    pub channels: Vec<String>
+    pub channels: Vec<String>,
+
+    #[arg(long)]
+    pub filter_regex: Option<String>
 }

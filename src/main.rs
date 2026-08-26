@@ -15,6 +15,13 @@ use args::DexporterOpts;
 
 #[tokio::main]
 async fn main() {
+    #[cfg(debug_assertions)]
+    {
+        eprintln!("Warning: You're running this program in debug mode with assertions on.");
+        eprintln!("Some parts will be slow.");
+        eprintln!("Consider running a proper release, on release mode, which will parse and serialize files much faster.");
+    }
+
     let options = DexporterOpts::parse();
 
     match options {

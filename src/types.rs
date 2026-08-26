@@ -153,16 +153,30 @@ pub struct Message {
     pub content: Option<String>,
     pub author: Author,
     pub attachments: Vec<Attachment>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub edited_timestamp: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub message_reference: Option<MessageReference>,
     pub embeds: Vec<Embed>,
     pub pinned: Option<bool>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct MessageReference {
+    pub r#type: u32,
+    pub message_id: U64ReprStr,
+    pub channel_id: U64ReprStr,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub guild_id: Option<U64ReprStr>,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Author {
     pub username: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub avatar: Option<String>,
     pub id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub global_name: Option<String>
 }
 
@@ -172,25 +186,41 @@ pub struct Attachment {
     pub id: String,
     pub filename: String,
     pub url: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub height: Option<usize>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub width: Option<usize>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub content_type: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub original_content_type: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub size: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub proxy_url: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Embed {
+    #[serde(skip_serializing_if = "Option::is_none")]
     r#type: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     author: Option<EmbedAuthor>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     thumbnail: Option<EmbedThumbnail>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     title: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     url: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     description: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     fields: Option<Vec<EmbedField>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     footer: Option<EmbedFooter>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     timestamp: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     color: Option<u32>
 }
 
@@ -204,21 +234,29 @@ pub struct EmbedField {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct EmbedAuthor {
+    #[serde(skip_serializing_if = "Option::is_none")]
     name: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     url: Option<String>
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct EmbedThumbnail {
     url: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     content_type: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     proxy_url: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     width: Option<usize>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     height: Option<usize>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct EmbedFooter {
+    #[serde(skip_serializing_if = "Option::is_none")]
     text: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     icon_url: Option<String>
 }

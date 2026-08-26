@@ -77,7 +77,7 @@ async fn populate_interactive_channels(options: &mut Update) -> Option<()> {
                     break;
                 },
                 "quit" => return None,
-                "start" if can_start => return Some(()),
+                "start" | "" if can_start => return Some(()),
                 "n" | "no" => break,
                 _ => println!("What? I'm going to ask again")
             }
