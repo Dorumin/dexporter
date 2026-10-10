@@ -136,6 +136,8 @@ pub async fn do_export(export: Export) -> anyhow::Result<()> {
 
             file.write_all(b"\n").await?;
         }
+
+        file.flush().await?;
     }
 
     Ok(())
