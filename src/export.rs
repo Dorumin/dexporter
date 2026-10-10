@@ -1,6 +1,6 @@
 use std::{borrow::Cow, path::PathBuf};
 
-use crate::{args::Export, fs::ParsedDex, types::{Channel}};
+use crate::{args::Export, fs::ParsedDex, types::Channel};
 use chrono::{Datelike, Timelike};
 use tokio::io::{AsyncWriteExt, BufWriter};
 use walkdir::WalkDir;
@@ -18,7 +18,9 @@ pub async fn do_export(export: Export) -> anyhow::Result<()> {
         println!("{}", entry.path().display());
 
         let Some(parsed) = ParsedDex::parse(entry.path()).await else {
-            return Err(anyhow::anyhow!("Invalid .dex file."));
+            eprintln!("Invalid .dex file: {}", entry.path().display());
+
+            continue;
         };
 
         parsoids.push((parsed, entry));
@@ -56,7 +58,9 @@ pub async fn do_export(export: Export) -> anyhow::Result<()> {
         non_db_path.push(components.as_path());
 
         let names: String = match &parsed.header {
-            Channel::DMChannel(dm) => dm.recipients.iter()
+            Channel::DMChannel(dm) => dm
+                .recipients
+                .iter()
                 // .filter(|r| shared_user_ids.as_ref().unwrap().contains(&r.id))
                 .map(|r| r.username.to_string())
                 .collect::<Vec<_>>()
@@ -104,22 +108,30 @@ pub async fn do_export(export: Export) -> anyhow::Result<()> {
                     10 => "October",
                     11 => "November",
                     12 => "December",
-                    _ => unreachable!()
+                    _ => unreachable!(),
                 };
 
-                file.write_all(format!("\n---- {day:02} {month_name} {year:02} ----\n\n").as_bytes()).await?;
+                file.write_all(
+                    format!("\n---- {day:02} {month_name} {year:02} ----\n\n").as_bytes(),
+                )
+                .await?;
 
                 last_date = Some(ts.date_naive());
             }
 
-            file.write_all(format!("{year:02}-{month:02}-{day:02} {hour:02}:{minute:02}:{second:02} {author}").as_bytes()).await?;
+            file.write_all(
+                format!("{year:02}-{month:02}-{day:02} {hour:02}:{minute:02}:{second:02} {author}")
+                    .as_bytes(),
+            )
+            .await?;
 
             if let Some(content) = &message.content {
                 file.write_all(format!(": {content}").as_bytes()).await?;
             }
 
             for attachment in &message.attachments {
-                file.write_all(format!("\n{}", attachment.url).as_bytes()).await?;
+                file.write_all(format!("\n{}", attachment.url).as_bytes())
+                    .await?;
             }
 
             file.write_all(b"\n").await?;
